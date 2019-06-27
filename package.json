@@ -1,0 +1,8 @@
+{
+  "name": "Discord-Bot",
+  "version": "1.0.0",
+  "description": "A simple discord bot for the Coding Garden Community App",
+  "repository": "https://github.com/AndCotOli/Discord-Bot.git",
+  "author": "Andreu Cotanda Oliver <cotoli23@gmail.com>",
+  "license": "MIT"
+}

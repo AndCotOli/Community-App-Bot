@@ -1,0 +1,17 @@
+{
+    "_comment": "Rename this to config.json",
+    "token": "Enter your discord token here",
+    "roles": {
+        "Assignable": {
+            "_comment": "add here the role IDs which you want to be assignable by the bot"
+        },
+        "No_Assignable": {
+            "_comment": "add here the role IDs which you do NOT want to be assignable by the bot"
+        }
+    },
+    "greetings": {
+        "channelName": "enter the channel where the greetings text will be sent",
+        "greetingText": "enter the message you want to be displayed when a new user joins the server",
+        "privateMessageText": "enter the message you want to be sent privately when a new user joins the server"
+    }
+}
