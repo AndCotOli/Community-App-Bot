@@ -1,2 +1,3 @@
-# Discord-Bot
-A simple discord bot for the Coding Garden Community App
+# Community App Bot
+The bot for managing [Coding Garden's community App](https://github.com/CodingGardenCommunity).
+With integrations with Discord, GitHub and Google Spreadsheets.
