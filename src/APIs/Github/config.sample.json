@@ -1,0 +1,5 @@
+{
+  "_comment": "Rename this to 'config.json'",
+  "url": "https://api.github.com/graphql",
+  "token": "Your OAuth Token"
+}

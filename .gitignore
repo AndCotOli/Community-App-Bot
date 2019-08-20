@@ -60,4 +60,7 @@ typings/
 # next.js build output
 .next
 
+# Specifical to the project
 config.json
+roles.json
+messages.json
