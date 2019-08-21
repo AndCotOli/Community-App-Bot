@@ -7,10 +7,16 @@ module.exports = {
   admin: true,
   async: true,
   async execute(message, args) {
-    const db = require("../Keyv.js");
-    const moment = require("moment");
-    const date = moment(args[0], moment.ISO_8601);
-    await db.set("nextMeeting", date);
-    return message.channel.send(`Succesfully added a meeting on ${date}`);
+    const moment = require("moment-timezone");
+    const db = require("../Db");
+
+    const date = moment.utc(args[0], moment.ISO_8601);
+    db.meeting = date;
+
+    return message.channel.send(
+      `Succesfully added a meeting on ${date.format(
+        "dddd, MMMM Do YYYY - hh:mm:ss a z"
+      )}`
+    );
   }
 };

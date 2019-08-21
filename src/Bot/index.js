@@ -1,5 +1,7 @@
 const colors = require("colors/safe");
 const fs = require("fs");
+const moment = require("moment-timezone");
+const timezones = require("./timezone.json");
 
 const Discord = require("discord.js");
 const client = new Discord.Client();
@@ -19,11 +21,14 @@ client.once("ready", () => {
     const command = require(`./commands/${file}`);
     client.commands.set(command.name, command);
   }
+
+  moment.tz.load(timezones);
+
   console.log(colors.blue("Discord Bot Running"));
 });
 
 client.on("guildMemberAdd", member => {
-  member.guild.systemChannel.send(`@${member.displayName} joined the server!`);
+  member.guild.systemChannel.send(`${member} joined the server!`);
   member.addRole(visitor);
   member.send(`
     Hello and welcome to the Coding Garden Community Discord!

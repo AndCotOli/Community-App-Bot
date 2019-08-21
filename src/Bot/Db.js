@@ -3,8 +3,6 @@ const colors = require("colors");
 
 const db = new Keyv();
 
-db.on("error", e =>
-  console.log(colors.red(`Error during connecting to Keyv\n${e}`))
-);
+db.on("error", () => console.log(colors.red("Error during Keyv setup")));
 
 module.exports = db;
