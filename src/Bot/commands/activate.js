@@ -12,12 +12,11 @@ module.exports = {
     message.reply("Adding you to Trello");
     const trello = await addBoardMember(email);
 
-    console.log(trello);
-
     if (trello["error"] === "ERROR") {
-      return message.channel.send(
+      return message.reply(
         `An error ocurred while adding you to trello: ${trello["message"]}`
       );
     }
+    return message.reply("Succesfully added to Trello!");
   }
 };

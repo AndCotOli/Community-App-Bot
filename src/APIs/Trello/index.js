@@ -10,14 +10,9 @@ async function addBoardMember(email) {
     headers: { "Content-Type": "application/json" }
   };
 
-  try {
-    const res = await fetch(url, options);
-    const data = await res.json();
-    return data;
-  } catch (e) {
-    console.error(e);
-    throw new Error(e);
-  }
+  const res = await fetch(url, options);
+  const data = await res.json();
+  return data;
 }
 
 module.exports = { addBoardMember };
