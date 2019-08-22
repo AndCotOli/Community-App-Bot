@@ -1,37 +1,22 @@
-const request = require("request");
+const fetch = require("node-fetch");
 
 const { token, key, id } = require("./config.json");
 
-// function addBoardMember(email) {
-//   const options = {
-//     method: "PUT",
-//     url: `https://api.trello.com/1/boards/${id}/members`,
-//     qs: { email, key, token },
-//     headers: { type: "type", "content-type": "application/json" }
-//   };
-
-//   request(options, (err, _res, data) => {
-//     if (err) return err;
-
-//     console.log(data);
-
-//     return data;
-//   });
-// }
-
 async function addBoardMember(email) {
+  const url = `https://api.trello.com/1/boards/${id}/members?email=${email}&key=${key}&token=${token}`;
+
   const options = {
     method: "PUT",
-    url: `https://api.trello.com/1/boards/${id}/members`,
-    qs: { email, key, token },
-    headers: { type: "type", "content-type": "application/json" }
+    headers: { "Content-Type": "application/json" }
   };
 
   try {
-    const data = await request(options);
-    return data.body;
-  } catch (error) {
-    return error;
+    const res = await fetch(url, options);
+    const data = await res.json();
+    return data;
+  } catch (e) {
+    console.error(e);
+    throw new Error(e);
   }
 }
 
