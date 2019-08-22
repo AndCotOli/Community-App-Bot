@@ -10,6 +10,8 @@ client.commands = new Discord.Collection();
 const { token, prefix } = require("./config.json");
 const { visitor, gardener } = require("./roles.json");
 
+const { readDB } = require("./Db");
+
 client.login(token);
 
 client.once("ready", () => {
@@ -21,6 +23,8 @@ client.once("ready", () => {
     const command = require(`./commands/${file}`);
     client.commands.set(command.name, command);
   }
+
+  readDB();
 
   moment.tz.load(timezones);
 
@@ -76,3 +80,6 @@ client.on("message", async message => {
     console.log(colors.red(`An error ocurred running a command:\n${e}`));
   }
 });
+process.on("unhandledRejection", error =>
+  console.log(colors.red("Uncaught Promise Rejection", error))
+);
