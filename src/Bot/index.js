@@ -1,7 +1,5 @@
 const colors = require("colors/safe");
 const fs = require("fs");
-const moment = require("moment-timezone");
-const timezones = require("./timezone.json");
 
 const Discord = require("discord.js");
 const client = new Discord.Client();
@@ -25,8 +23,6 @@ client.once("ready", () => {
   }
 
   readDB();
-
-  moment.tz.load(timezones);
 
   console.log(colors.blue("Discord Bot Running"));
 });

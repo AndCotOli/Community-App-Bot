@@ -8,8 +8,6 @@ module.exports = {
 
     const date = get("meeting").toString();
 
-    console.log(date);
-
     if (!args.length) args[0] = "UTC";
     return message.channel.send(
       `Next Meeting is on  ${moment(date)
