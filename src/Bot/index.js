@@ -25,6 +25,8 @@ client.once("ready", () => {
   readDB();
 
   console.log(colors.blue("Discord Bot Running"));
+
+  client.guilds.map(guild => guild.systemChannel.send("Bot connected"));
 });
 
 client.on("guildMemberAdd", member => {
@@ -76,6 +78,7 @@ client.on("message", async message => {
     console.log(colors.red(`An error ocurred running a command:\n${e}`));
   }
 });
+
 process.on("unhandledRejection", error =>
   console.log(colors.red("Uncaught Promise Rejection", error))
 );

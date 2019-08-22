@@ -33,8 +33,6 @@ const readDB = () => {
   fs.readFile(dbPath, { encoding: "utf8" }, (err, data) => {
     if (err) throw err;
 
-    console.log(data);
-
     try {
       data = JSON.parse(data);
 
