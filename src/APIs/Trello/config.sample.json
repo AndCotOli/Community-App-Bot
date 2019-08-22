@@ -1,0 +1,6 @@
+{
+  "_comment": "Rename this to config.json",
+  "token": "Enter your Trello API token",
+  "key": "Enter your Trello API key",
+  "id": "Enter your table id here"
+}
