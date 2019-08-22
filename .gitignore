@@ -64,3 +64,4 @@ typings/
 config.json
 roles.json
 messages.json
+db.json

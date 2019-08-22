@@ -5,13 +5,13 @@ module.exports = {
   args: true,
   usage: "<time>",
   admin: true,
-  async: true,
-  async execute(message, args) {
+  execute(message, args) {
     const moment = require("moment-timezone");
-    const db = require("../Db");
+    const { set, remove } = require("../Db");
 
     const date = moment.utc(args[0], moment.ISO_8601);
-    db.meeting = date;
+    remove("meeting");
+    set("meeting", date);
 
     return message.channel.send(
       `Succesfully added a meeting on ${date.format(
