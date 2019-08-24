@@ -14,7 +14,7 @@ module.exports = {
     set("meeting", date);
 
     return message.channel.send(
-      `Succesfully added a meeting on ${date.format(
+      `Successfully added a meeting on ${date.format(
         "dddd, MMMM Do YYYY - hh:mm:ss a z"
       )}`
     );
