@@ -31,11 +31,11 @@ module.exports = {
 
     if (!command) return message.reply("Not a valid command");
 
-    data.push(`Name: ${command.name}`);
+    data.push(`**Name** : ${command.name}`);
     if (command.aliases) data.push(`Aliases ${command.aliases.join(", ")}`);
-    data.push(`Description: ${command.description}`);
+    data.push(`**Description** : ${command.description}`);
     if (command.usage)
-      data.push(`Usage: ${prefix}${command.name} ${command.usage}`);
+      data.push(`**Usage** : ${prefix}${command.name} ${command.usage}`);
     if (command.admin)
       data.push("You need to be a gardener to use this command");
     message.channel.send(data.join("\n"), { split: true });

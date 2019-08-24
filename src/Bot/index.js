@@ -1,7 +1,5 @@
 const colors = require("colors/safe");
 const fs = require("fs");
-const moment = require("moment-timezone");
-const timezones = require("./timezone.json");
 
 const Discord = require("discord.js");
 const client = new Discord.Client();
@@ -9,6 +7,8 @@ client.commands = new Discord.Collection();
 
 const { token, prefix } = require("./config.json");
 const { visitor, gardener } = require("./roles.json");
+
+const { readDB } = require("./Db");
 
 client.login(token);
 
@@ -22,9 +22,11 @@ client.once("ready", () => {
     client.commands.set(command.name, command);
   }
 
-  moment.tz.load(timezones);
+  readDB();
 
   console.log(colors.blue("Discord Bot Running"));
+
+  client.guilds.map(guild => guild.systemChannel.send("Bot connected"));
 });
 
 client.on("guildMemberAdd", member => {
@@ -76,3 +78,7 @@ client.on("message", async message => {
     console.log(colors.red(`An error ocurred running a command:\n${e}`));
   }
 });
+
+process.on("unhandledRejection", error =>
+  console.log(colors.red("Uncaught Promise Rejection", error))
+);
