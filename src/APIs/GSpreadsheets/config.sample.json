@@ -1,5 +1,4 @@
-{   
-    "_comment": "Rename this to config.json",
-    "base_url": "enter the base url for google apis",
-    "token": "enter your google apis token"
+{
+  "_comment": "Rename this to config.json",
+  "sheetId": "enter your sheet Id"
 }
