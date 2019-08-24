@@ -65,4 +65,4 @@ config.json
 roles.json
 messages.json
 
-package-lock.json
+.vscode
