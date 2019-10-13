@@ -1,11 +1,12 @@
 const fs = require('fs').promises;
+const path = require('path');
 const readline = require('readline');
 const { google } = require('googleapis');
 const colors = require('colors');
 
 const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
-const CREDENTIALS_PATH = 'credentials.json';
-const TOKEN_PATH = 'token.json';
+const CREDENTIALS_PATH = path.join(__dirname, 'credentials.json');
+const TOKEN_PATH = path.join(__dirname, 'token.json');
 
 async function setUpSheetsAPI() {
   console.log('Setting up sheets API');

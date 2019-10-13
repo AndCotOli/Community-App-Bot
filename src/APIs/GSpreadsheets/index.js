@@ -27,13 +27,42 @@ class SheetsAPI {
     });
   }
 
-  async append()
+  async append(values) {
+    if (this.sheets === null) await this._init();
+
+    let request = {
+      spreadsheetId: this.id,
+      range: 'General Information!A2:A',
+      valueInputOption: 'RAW',
+      resource: { values }
+    };
+
+    this.sheets.spreadsheets.values.append(request, (err, response) => {
+      if (err) return console.log('Oops, something went wrong: ', err);
+    });
+  }
 }
 
 // Tests
 async function main() {
-  const sheets = new SheetsAPI(sheetId);
-  await sheets.read(['General Information!A2:A']);
+  const sheets = new SheetsAPI(sheetID);
+  await sheets.append([
+    [
+      'Test_Name',
+      'Test_ID',
+      'Test_GH',
+      'Test_Email',
+      'X',
+      'Test_TimeZone',
+      'X',
+      'X',
+      null,
+      null,
+      null,
+      'X',
+      'X'
+    ]
+  ]);
 }
 
 main();
