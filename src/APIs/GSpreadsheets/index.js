@@ -37,15 +37,17 @@ class SheetsAPI {
       resource: { values }
     };
 
-    this.sheets.spreadsheets.values.append(request, (err, response) => {
+    return this.sheets.spreadsheets.values.append(request, (err, response) => {
       if (err) return console.log('Oops, something went wrong: ', err);
+
+      return { status: response.status, message: response.statusText };
     });
   }
 }
 
 // Tests
 async function main() {
-  const sheets = new SheetsAPI(sheetID);
+  const sheets = new SheetsAPI(sheetId);
   await sheets.append([
     [
       'Test_Name',

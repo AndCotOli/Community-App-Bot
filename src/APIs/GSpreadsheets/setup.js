@@ -9,7 +9,6 @@ const CREDENTIALS_PATH = path.join(__dirname, 'credentials.json');
 const TOKEN_PATH = path.join(__dirname, 'token.json');
 
 async function setUpSheetsAPI() {
-  console.log('Setting up sheets API');
   return fs
     .readFile(CREDENTIALS_PATH)
     .then(contentBuffer => {
@@ -25,14 +24,11 @@ async function setUpSheetsAPI() {
       return fs
         .readFile(TOKEN_PATH)
         .then(token => {
-          console.log('Token getted');
           oAuth2Client.setCredentials(JSON.parse(token));
           return google.sheets({ version: 'v4', auth: oAuth2Client });
         })
         .catch(_err => {
-          console.log(colors.red('An error ocurred while grabbing the token'));
-          console.log(colors.blue('Generating a new token...'));
-          return this._getNewToken(oAuth2Client);
+          return _getNewToken(oAuth2Client);
         });
     })
     .catch(err => console.log(colors.red('Error loading credentials: ', err)));
