@@ -1,21 +1,20 @@
-const colors = require("colors/safe");
-const fs = require("fs");
+const colors = require('colors/safe');
+const fs = require('fs');
+const path = require('path');
 
-const Discord = require("discord.js");
+const Discord = require('discord.js');
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 
-const { token, prefix } = require("./config.json");
-const { visitor, gardener } = require("./roles.json");
+const prefix = process.env.DISCORD_PREFIX;
+const { visitor, gardener } = require('./roles.json');
 
-const { readDB } = require("./Db");
+const { readDB } = require('./Db');
 
-client.login(token);
-
-client.once("ready", () => {
+client.once('ready', () => {
   const commandFiles = fs
-    .readdirSync("./commands")
-    .filter(file => file.endsWith(".js"));
+    .readdirSync(path.join(__dirname, './commands'))
+    .filter(file => file.endsWith('.js'));
 
   for (file of commandFiles) {
     const command = require(`./commands/${file}`);
@@ -24,12 +23,12 @@ client.once("ready", () => {
 
   readDB();
 
-  console.log(colors.blue("Discord Bot Running"));
+  console.log(colors.blue('Discord Bot Running'));
 
-  client.guilds.map(guild => guild.systemChannel.send("Bot connected"));
+  // client.guilds.map(guild => guild.systemChannel.send('Bot connected'));
 });
 
-client.on("guildMemberAdd", member => {
+client.on('guildMemberAdd', member => {
   member.guild.systemChannel.send(`${member} joined the server!`);
   member.addRole(visitor);
   member.send(`
@@ -49,7 +48,7 @@ client.on("guildMemberAdd", member => {
   `);
 });
 
-client.on("message", async message => {
+client.on('message', async message => {
   if (!message.content.startsWith(prefix) || message.author.bot) return;
 
   const args = message.content.slice(prefix.length).split(/ +/);
@@ -60,13 +59,13 @@ client.on("message", async message => {
       cmd => cmd.aliases && cmd.aliases.includes(commandName)
     );
 
-  if (!command) return message.channel.send("Not a valid command");
+  if (!command) return message.channel.send('Not a valid command');
 
   if (command.args && !args.length)
     return message.reply("You didn't provide any arguments");
 
   if (command.admin && !message.member.roles.has(gardener))
-    return message.reply("You must be an admin to use this command");
+    return message.reply('You must be an admin to use this command');
 
   try {
     if (command.async) {
@@ -79,6 +78,8 @@ client.on("message", async message => {
   }
 });
 
-process.on("unhandledRejection", error =>
-  console.log(colors.red("Uncaught Promise Rejection", error))
+process.on('unhandledRejection', error =>
+  console.log(colors.red('Uncaught Promise Rejection', error))
 );
+
+module.exports = client;

@@ -5,9 +5,14 @@
   "repository": "https://github.com/AndCotOli/Discord-Bot.git",
   "author": "Andreu Cotanda Oliver <cotoli23@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "dev": "nodemon src/",
+    "start": "node src/"
+  },
   "dependencies": {
     "colors": "^1.3.3",
     "discord.js": "^11.5.1",
+    "dotenv": "^8.1.0",
     "google-auth-library": "^5.2.0",
     "googleapis": "^42.0.0",
     "graphql-request": "^1.8.2",
