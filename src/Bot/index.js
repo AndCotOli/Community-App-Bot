@@ -5,15 +5,21 @@ const path = require('path');
 const Discord = require('discord.js');
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
+client.activateCommands = new Discord.Collection();
 
 const prefix = process.env.DISCORD_PREFIX;
+const activatePrefix = process.env.DISCORD_ACTIVATE_PREFIX;
 const { visitor, gardener } = require('./roles.json');
 
-const { readDB } = require('./Db');
+const onGuildJoin = require('./tasks/onGuildJoin');
 
 client.once('ready', () => {
   const commandFiles = fs
     .readdirSync(path.join(__dirname, './commands'))
+    .filter(file => file.endsWith('.js'));
+
+  const activateFiles = fs
+    .readdirSync(path.join(__dirname, './commands/activateCommands'))
     .filter(file => file.endsWith('.js'));
 
   for (file of commandFiles) {
@@ -21,11 +27,19 @@ client.once('ready', () => {
     client.commands.set(command.name, command);
   }
 
-  readDB();
-
+  for (file of activateFiles) {
+    const command = require(`./commands/activateCommands/${file}`);
+    client.activateCommands.set(command.name, command);
+  }
   console.log(colors.blue('Discord Bot Running'));
 
   // client.guilds.map(guild => guild.systemChannel.send('Bot connected'));
+});
+
+client.on('guildCreate', async guild => {
+  if (!guild.available) return;
+
+  onGuildJoin(guild);
 });
 
 client.on('guildMemberAdd', member => {
@@ -46,18 +60,27 @@ client.on('guildMemberAdd', member => {
 
     And remember, have fun!
   `);
+  // onUserJoin(member)
 });
 
 client.on('message', async message => {
-  if (!message.content.startsWith(prefix) || message.author.bot) return;
-
+  if (message.author.bot) return;
   const args = message.content.slice(prefix.length).split(/ +/);
   const commandName = args.shift().toLowerCase();
-  const command =
-    client.commands.get(commandName) ||
-    client.commands.find(
-      cmd => cmd.aliases && cmd.aliases.includes(commandName)
-    );
+  let command;
+  if (message.content.startsWith(prefix)) {
+    command =
+      client.commands.get(commandName) ||
+      client.commands.find(
+        cmd => cmd.aliases && cmd.aliases.includes(commandName)
+      );
+  } else if (message.content.startsWith(activatePrefix)) {
+    command =
+      client.activateCommands.get(commandName) ||
+      client.activateCommands.find(
+        cmd => cmd.aliases && cmd.aliases.includes(commandName)
+      );
+  }
 
   if (!command) return message.channel.send('Not a valid command');
 
