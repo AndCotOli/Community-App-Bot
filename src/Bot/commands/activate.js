@@ -62,6 +62,7 @@ async function getCountryCode(channel, authorId) {
 }
 
 async function getEmail(channel, authorId) {
+  let emailRxp = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
   channel.send('Please, enter your email:');
   let emailCollector = await channel.awaitMessages(
     m => m.author.id === authorId,
@@ -73,7 +74,7 @@ async function getEmail(channel, authorId) {
   );
   let email = emailCollector.first().content;
 
-  if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+  if (!emailRxp.test(email)) {
     channel.send('Not a valid email address');
     return getEmail(channel, authorId);
   }
@@ -151,21 +152,27 @@ module.exports = {
       return channel.send("Time's up, you'll need to be faster next time.");
     }
 
-    let email = await getEmailFromGitHub(github);
+    let email;
+
+    try {
+      email = await getEmailFromGitHub(github);
+    } catch (e) {
+      channel.send('Invalid github username');
+    }
     if (!email) {
       channel.send("Seems like you don't have a public email on GitHub.");
-      email = getEmail(channel, message.author.id);
+      email = await getEmail(channel, message.author.id);
     }
 
     //TODO: Emoji Reaction Role-Selection system
 
-    let userDB = User.findOne({ discordId: message.author.id });
+    let userDB = await User.findOne({ discordId: message.author.id });
 
-    userDB.name = name;
-    userDB.github = github;
-    userDB.email = email;
-    userDB.timezone = timezone;
-    userDB.countryCode = countryCode;
+    // userDB.name = name;
+    // userDB.email = email;
+    // userDB.github = github;
+    // userDB.timezone = timezone;
+    // userDB.countryCode = countryCode;
 
     const trello = await addBoardMember(email);
     if (trello.error) {
@@ -175,15 +182,15 @@ module.exports = {
     }
 
     const sheets = await Sheets.append([
-      [
-        name,
-        `${message.author.tag}`,
-        github,
-        email,
-        userDB.isInvitedGithub ? 'X' : '',
-        timezone
-      ]
+      [name,
+      `${message.author.tag}`,
+      github,
+      email,
+      userDB.isInvitedGithub ? 'X' : '',
+      timezone]
     ]);
+
+    // await userDB.save();
 
     console.log(sheets);
 

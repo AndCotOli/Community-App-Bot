@@ -31,7 +31,7 @@ class SheetsAPI {
 
     let request = {
       spreadsheetId: this.id,
-      range: 'Genermal Information!A2:A',
+      range: 'General Information!A2:A',
       valueInputOption: 'RAW',
       resource: { values }
     };
