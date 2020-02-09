@@ -1,5 +1,4 @@
 const SetUp = require('./setup');
-const sheetId = process.env.SHEET_ID;
 
 class SheetsAPI {
   constructor(sheetID) {
@@ -32,7 +31,7 @@ class SheetsAPI {
 
     let request = {
       spreadsheetId: this.id,
-      range: 'General Information!A2:A',
+      range: 'Genermal Information!A2:A',
       valueInputOption: 'RAW',
       resource: { values }
     };
@@ -40,32 +39,13 @@ class SheetsAPI {
     return this.sheets.spreadsheets.values.append(request, (err, response) => {
       if (err) return console.log('Oops, something went wrong: ', err);
 
-      return { status: response.status, message: response.statusText };
+      return {
+        status: response.status,
+        message: response.statusText,
+        position: response.tableRange
+      };
     });
   }
 }
 
-// Tests
-async function main() {
-  const sheets = new SheetsAPI(sheetId);
-  await sheets.append([
-    [
-      'Test_Name',
-      'Test_ID',
-      'Test_GH',
-      'Test_Email',
-      'X',
-      'Test_TimeZone',
-      'X',
-      'X',
-      null,
-      null,
-      null,
-      'X',
-      'X'
-    ]
-  ]);
-}
-
-main();
 module.exports = SheetsAPI;

@@ -1,6 +1,7 @@
 module.exports = {
   name: 'memory',
   description: 'Get the current memory the bot is using',
+  secret: true,
   execute(message, _args) {
     const normalize = memory => Math.round((memory / 1024 / 1024) * 100) / 100;
 

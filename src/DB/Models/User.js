@@ -1,15 +1,25 @@
 const { Schema, model } = require('mongoose');
-const Role = require('./Role').schema;
 
 const userSchema = new Schema({
   name: String,
   github: String,
   email: String,
+  timezone: String,
+  countryCode: String,
   discordId: {
     type: String,
     required: true
   },
-  roles: [Role],
+  discordDisc: {
+    type: String,
+    required: true
+  },
+  roles: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Role'
+    }
+  ],
   joinedAt: {
     type: Date,
     required: true
@@ -22,13 +32,9 @@ const userSchema = new Schema({
     type: Boolean,
     default: false
   },
-  isInvitedTrello: {
-    type: Boolean,
-    default: false
-  }
+  spreadSheetsPos: String
 });
 
 const User = model('User', userSchema);
 
 module.exports = User;
-module.exports.schema = userSchema;

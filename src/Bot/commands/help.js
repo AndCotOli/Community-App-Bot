@@ -12,6 +12,7 @@ module.exports = {
       data.push('Command list:');
       data.push('```');
       commands.map(cmd => {
+        if (cmd.secret) return;
         data.push(`- !${cmd.name}`);
         data.push(`\t${cmd.description}`);
       });

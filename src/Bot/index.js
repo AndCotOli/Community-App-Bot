@@ -8,7 +8,6 @@ client.commands = new Discord.Collection();
 client.activateCommands = new Discord.Collection();
 
 const prefix = process.env.DISCORD_PREFIX;
-const activatePrefix = process.env.DISCORD_ACTIVATE_PREFIX;
 const { visitor, gardener } = require('./roles.json');
 
 const onGuildJoin = require('./tasks/onGuildJoin');
@@ -18,18 +17,9 @@ client.once('ready', () => {
     .readdirSync(path.join(__dirname, './commands'))
     .filter(file => file.endsWith('.js'));
 
-  const activateFiles = fs
-    .readdirSync(path.join(__dirname, './commands/activateCommands'))
-    .filter(file => file.endsWith('.js'));
-
   for (file of commandFiles) {
     const command = require(`./commands/${file}`);
     client.commands.set(command.name, command);
-  }
-
-  for (file of activateFiles) {
-    const command = require(`./commands/activateCommands/${file}`);
-    client.activateCommands.set(command.name, command);
   }
   console.log(colors.blue('Discord Bot Running'));
 
@@ -65,22 +55,15 @@ client.on('guildMemberAdd', member => {
 
 client.on('message', async message => {
   if (message.author.bot) return;
+  if (!message.content.startsWith(prefix)) return;
+
   const args = message.content.slice(prefix.length).split(/ +/);
   const commandName = args.shift().toLowerCase();
-  let command;
-  if (message.content.startsWith(prefix)) {
-    command =
-      client.commands.get(commandName) ||
-      client.commands.find(
-        cmd => cmd.aliases && cmd.aliases.includes(commandName)
-      );
-  } else if (message.content.startsWith(activatePrefix)) {
-    command =
-      client.activateCommands.get(commandName) ||
-      client.activateCommands.find(
-        cmd => cmd.aliases && cmd.aliases.includes(commandName)
-      );
-  }
+  let command =
+    client.commands.get(commandName) ||
+    client.commands.find(
+      cmd => cmd.aliases && cmd.aliases.includes(commandName)
+    );
 
   if (!command) return message.channel.send('Not a valid command');
 

@@ -4,6 +4,7 @@ module.exports = {
   name: 'simulatejoin',
   description: 'Trick the bot so it thinks it just entered a new server',
   admin: true,
+  secret: true,
   execute(message, _args) {
     onGuildJoin(message.guild);
   }

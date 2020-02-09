@@ -5,9 +5,10 @@ const Meeting = require('../../DB/Models/Meeting');
 module.exports = {
   name: 'dropdb',
   description: 'remove all the contents of the DB',
+  secret: true,
   execute(message, _args) {
-    // User.remove({}, () => message.channel.send('User Model cleaned'));
-    // Role.remove({}, () => message.channel.send('Role Model cleaned'));
+    User.remove({}, () => message.channel.send('User Model cleaned'));
+    Role.remove({}, () => message.channel.send('Role Model cleaned'));
     Meeting.remove({}, () => message.channel.send('Meeting Model cleaned'));
   }
 };
