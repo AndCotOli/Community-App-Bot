@@ -6,6 +6,7 @@ module.exports = {
   name: 'dropdb',
   description: 'remove all the contents of the DB',
   secret: true,
+  admin: true,
   execute(message, _args) {
     User.remove({}, () => message.channel.send('User Model cleaned'));
     Role.remove({}, () => message.channel.send('Role Model cleaned'));

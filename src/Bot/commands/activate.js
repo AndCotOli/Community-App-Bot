@@ -182,13 +182,22 @@ module.exports = {
     }
 
     const sheets = await Sheets.append([
-      [name,
-      `${message.author.tag}`,
-      github,
-      email,
-      userDB.isInvitedGithub ? 'X' : '',
-      timezone]
+      [
+        name,
+        `${message.author.tag}`,
+        github,
+        email,
+        userDB.isInvitedGithub ? 'X' : '',
+        timezone
+      ]
     ]);
+    if (sheets.error) {
+      channel.send(
+        'Something went wrong with GSheets, please, contact an administrator.'
+      );
+    } else {
+      // userDB.spreadSheetsPos = parseInt(sheets.updates.updatedRange.substr(23, 25))
+    }
 
     // await userDB.save();
 

@@ -39,11 +39,7 @@ class SheetsAPI {
     return this.sheets.spreadsheets.values.append(request, (err, response) => {
       if (err) return console.log('Oops, something went wrong: ', err);
 
-      return {
-        status: response.status,
-        message: response.statusText,
-        position: response.tableRange
-      };
+      return response;
     });
   }
 }
