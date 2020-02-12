@@ -10,7 +10,7 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  discordDisc: {
+  discordTag: {
     type: String,
     required: true
   },

@@ -13,11 +13,11 @@ async function onGuildJoin(guild) {
   for (let member of guild.members.array()) {
     let user = await User.create({
       discordId: member.user.id,
-      discordDisc: member.user.discriminator,
+      discordtag: member.user.tag,
       joinedAt: member.joinedAt
     });
     for (let role of member.roles.array()) {
-      let uRole = await Role.findOne({ roleId: role.id }, (err, role) => {
+      let uRole = await Role.findOne({ roleId: role.id }, err => {
         if (err) throw new Error('Something happened', err);
       });
       user.roles.push(uRole.id);

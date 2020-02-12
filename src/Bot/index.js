@@ -34,23 +34,7 @@ client.on('guildCreate', async guild => {
 
 client.on('guildMemberAdd', member => {
   member.guild.systemChannel.send(`${member} joined the server!`);
-  member.addRole(visitor);
-  member.send(`
-    Hello and welcome to the Coding Garden Community Discord!
-
-    To get started, fill the following commands:
-      - \`!activate your_name github_username your@email timezone\`
-    
-    To get the roles, you'll need to do:
-      - \`!get-roles  \`
-      And select the corresponding role with
-      - \`!set-role role1 role2 role3 ...  \`
-
-    If you want to know the commands for this bot, use \`!help \`
-
-    And remember, have fun!
-  `);
-  // onUserJoin(member)
+  onUserJoin(member);
 });
 
 client.on('message', async message => {

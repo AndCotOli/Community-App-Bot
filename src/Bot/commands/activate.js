@@ -168,11 +168,11 @@ module.exports = {
 
     let userDB = await User.findOne({ discordId: message.author.id });
 
-    // userDB.name = name;
-    // userDB.email = email;
-    // userDB.github = github;
-    // userDB.timezone = timezone;
-    // userDB.countryCode = countryCode;
+    userDB.name = name;
+    userDB.email = email;
+    userDB.github = github;
+    userDB.timezone = timezone;
+    userDB.countryCode = countryCode;
 
     const trello = await addBoardMember(email);
     if (trello.error) {
@@ -196,13 +196,14 @@ module.exports = {
         'Something went wrong with GSheets, please, contact an administrator.'
       );
     } else {
-      // userDB.spreadSheetsPos = parseInt(sheets.updates.updatedRange.substr(23, 25))
+      userDB.spreadSheetsPos = parseInt(
+        sheets.updates.updatedRange.substr(23, 25)
+      );
     }
 
-    // await userDB.save();
-
-    console.log(sheets);
-
-    console.table({ name, github, email, timezone, countryCode });
+    userDB.save(err => {
+      if (err)
+        throw new Error('A problem occured while saving the user to the DB');
+    });
   }
 };
