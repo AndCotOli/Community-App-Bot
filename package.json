@@ -16,7 +16,7 @@
     "dotenv": "^8.1.0",
     "googleapis": "^43.0.0",
     "graphql-request": "^1.8.2",
-    "moment": "^2.24.0",
+    "moment": "^2.25.0",
     "mongoose": "^5.9.3",
     "node-fetch": "^2.6.0"
   }
