@@ -15,7 +15,7 @@
     "discord.js": "^11.5.1",
     "dotenv": "^8.1.0",
     "googleapis": "^43.0.0",
-    "graphql-request": "^1.8.2",
+    "graphql-request": "^2.0.0",
     "moment": "^2.24.0",
     "mongoose": "^5.9.3",
     "node-fetch": "^2.6.0"
