@@ -17,7 +17,7 @@
     "googleapis": "^43.0.0",
     "graphql-request": "^1.8.2",
     "moment": "^2.24.0",
-    "mongoose": "^5.9.3",
+    "mongoose": "^5.11.5",
     "node-fetch": "^2.6.0"
   }
 }
